@@ -1,4 +1,5 @@
-import './assets/main.css'
+// 引入初始化样式文件
+import '@/styles/common.scss'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'

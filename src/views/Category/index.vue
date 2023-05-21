@@ -1,9 +1,12 @@
 <template>
-<router-view></router-view>
+  <h1>Category</h1>
+  asdhlk;hfs
 </template>
 
 <script>
+export default {
 
+}
 </script>
 
 <style>
