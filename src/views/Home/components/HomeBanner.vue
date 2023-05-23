@@ -11,7 +11,7 @@ let bannerList = ref([])
 // 钩子
 onMounted( async () => {
   let data = await getBannerApi()
-  console.log(data.result);
+  // console.log(data.result);
   bannerList.value = data.result
 })
 </script>
