@@ -23,7 +23,7 @@ const router = createRouter({
 })
 
 itemRoutes.forEach((item) => {
-  console.log(item);
+  // console.log(item);
   router.addRoute('layout', item)
 })
 

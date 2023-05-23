@@ -6,3 +6,10 @@ import http from "@/utils/http.js";
     url: '/home/category/head',
   })
 }
+
+export function getBannerApi() { 
+  return http({
+    method : 'get',
+    url : 'home/banner'
+  })
+}
