@@ -3,12 +3,15 @@ import HomePanel from './HomePanel.vue'
 import { getHotApi } from '@/apis/layout.js'
 import { onMounted, ref } from 'vue'
 
+
 let hotList = ref([])
 onMounted(async () => {
   let res = await getHotApi()
   hotList.value = res.result
   // console.log(hotList.value);
 })
+
+
 </script>
 
 <template>

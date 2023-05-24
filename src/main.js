@@ -1,6 +1,5 @@
 // 引入初始化样式文件
 import '@/styles/common.scss'
-
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import { createPinia } from 'pinia'
@@ -8,15 +7,17 @@ import { createApp } from 'vue'
 
 import App from './App.vue'
 import router from './router'
-// 引入 vueUse 函数库
-import { useIntersectionObserver } from '@vueuse/core'
+// 引入我们的懒加载插件
+import imgLazy from './directives/index'
 
 const app = createApp(App)
 
-
+app.use(imgLazy)
 app.use(createPinia())
 app.use(router)
 app.use(ElementPlus)
+
+
 
 
 app.mount('#app')
@@ -30,19 +31,5 @@ app.mount('#app')
 //   }
 // })
 
-app.directive('img-lazy', {
-  mounted(el, binding) {
-    // vueUse 函数来判断 我们自定义指令的元素是否在视口区域
-    const a = useIntersectionObserver(
-      el,
-      ([{ isIntersecting }]) => {
-        // 当我们的 isIntersecting 为true,我们就给 页面上的 src 传值
-        if(isIntersecting){
-          // setTimeout(()=>{  // 为了自己演示 加了 个延时器
-            el.src = binding.value
-          // },500)
-        }
-      },
-    )
-  }
-})
+// 操作 Dom 我们选择使用自定义指令
+// 全局使用的 方法属性和自定的东西，我们可以使用插件

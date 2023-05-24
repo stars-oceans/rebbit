@@ -4,7 +4,6 @@ import HomePanel from './HomePanel.vue'
 import { findNewAPI } from '@/apis/layout'
 import { onMounted, ref } from 'vue'
 
-
 let newList = ref([])
 onMounted(async () => {
   let res = await findNewAPI()
