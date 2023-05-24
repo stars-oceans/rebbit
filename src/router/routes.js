@@ -11,7 +11,7 @@ let routes = [
     component: () => import('@/views/Category/index.vue')
   },
   {
-    path: '/settings/:id',
+    path: '/settings',
     name: 'settings',
     component: () => import('@/views/Settings/index.vue')
   },

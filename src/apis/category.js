@@ -10,3 +10,13 @@ export function getCategoryApi(id){
     }
   })
 }
+
+export function getBannerApi(){
+  return http({
+    method : 'get',
+    url:'/home/banner',
+    params:{
+      distributionSite : '2'
+    }
+  })
+}
