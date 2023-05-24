@@ -46,3 +46,10 @@ export function getHotApi(){
     url : '/home/hot'
   })
 }
+
+export function getGoodsApi(){
+  return http({
+    method : 'get',
+    url : '/home/goods'
+  })
+}
