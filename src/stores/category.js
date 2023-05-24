@@ -12,7 +12,6 @@ export const useCategoryStore = defineStore('category', () => {
     
     // console.log(categoryList.value);
   }
-
   return { categoryList, gerCategory }
 }
 )

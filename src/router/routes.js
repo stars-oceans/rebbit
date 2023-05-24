@@ -6,12 +6,12 @@ let routes = [
     component: () => import('@/views/Home/index.vue')
   },
   {
-    path: '/category',
+    path: '/category/:id',
     name: 'category',
     component: () => import('@/views/Category/index.vue')
   },
   {
-    path: '/settings',
+    path: '/settings/:id',
     name: 'settings',
     component: () => import('@/views/Settings/index.vue')
   },

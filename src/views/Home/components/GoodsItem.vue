@@ -1,21 +1,19 @@
 <template>
-  
-            <RouterLink to="/" class="goods-item">
-              <img v-img-lazy="good.picture" alt="" />
-              <p class="name ellipsis">{{ good.name }}</p>
-              <p class="desc ellipsis">{{ good.desc }}</p>
-              <p class="price">&yen;{{ good.price }}</p>
-            </RouterLink>
-   
+  <RouterLink to="/" class="goods-item">
+    <img v-img-lazy="good.picture" alt="" />
+    <p class="name ellipsis">{{ good.name }}</p>
+    <p class="desc ellipsis">{{ good.desc }}</p>
+    <p class="price">&yen;{{ good.price }}</p>
+  </RouterLink>
 </template>
 
 <script setup>
 import { defineProps } from 'vue'
 
 defineProps({
-  good : {
-    type : Object,
-     default: () => { }
+  good: {
+    type: Object,
+    default: () => { }
   }
 })
 
@@ -28,7 +26,7 @@ defineProps({
   width: 220px;
   padding: 20px 30px;
   text-align: center;
-  transition: all .5s;
+  transition: all 0.5s;
 
   &:hover {
     transform: translate3d(0, -3px, 0);
