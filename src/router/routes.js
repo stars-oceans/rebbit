@@ -8,12 +8,17 @@ let routes = [
   {
     path: '/category/:id',
     name: 'category',
-    component: () => import('@/views/Category/index.vue')
+    component: () => import('@/views/Category/index.vue'),
   },
   {
     path: '/settings',
     name: 'settings',
     component: () => import('@/views/Settings/index.vue')
   },
+  {
+    path : '/category/sub/:id',
+    name:'subCategory',
+    component :()=>import('@/views/SubCategory/index.vue'), 
+}
 ]
 export default routes

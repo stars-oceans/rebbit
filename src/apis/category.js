@@ -20,3 +20,17 @@ export function getBannerApi(){
     }
   })
 }
+
+/**
+ * 二级列表
+ */
+
+export function getSubApi(id){ 
+  return http({
+    method : 'get',
+    url : '/category/sub/filter',
+    params : {
+      id
+    }
+  })
+}
