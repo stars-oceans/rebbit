@@ -1,52 +1,23 @@
 <script setup>
-import { getCategoryApi } from '@/apis/category'
-import { onMounted, onUpdated, watch, ref } from 'vue'
-import { useRoute, onBeforeRouteUpdate } from 'vue-router'
-// 导入接口
-import { getBannerApi } from '@/apis/category.js'
+import { onMounted } from 'vue'
+// 导入封装好的卡片组件
 import GoodsItem from '../Home/components/GoodsItem.vue' 	// 阴影页面中显示品牌的组件
-const route = useRoute()
-
-// 存数据的响应式变量
-let categoryDate = ref({})
-// 因为 route.params 是一个对象不是一个响应式数据,我们得通过函数进行监听
-watch(() => route.params, (newParams, oldParams) => {
-  // 监听$route.params的变化
-  // console.log('路由参数已更改');
-  // console.log('新的参数:', newParams.id);
-  // console.log('旧的参数:', oldParams.id);
-  // 执行其他逻辑...
-  // console.log(newParams.id);
-  if (newParams.id) {
-    getCategory()
-  }
-});
-
-
-// 请求的函数
-const getCategory = async () => {
-  // 利用 route 给参数
-  const res = await getCategoryApi(route.params.id)
-  categoryDate.value = res.result
-  // console.log(categoryDate.value);
-}
+// 导入 useBanner 封装好的功能函数
+import { useBanner } from './composables/useBanner'
+// 将 usebanner的变量解构出来
+const { bannerList, getBanner } = useBanner()
+// 导入 useCategory 封装好的功能
+import { useCategory } from './composables/useCategory'
+// 将 useCategory 返回的变量解构出来
+const { categoryDate, getCategory } = useCategory()
 
 // 钩子
 onMounted(() => {
-  // 路由面包屑
-  getCategory()
-
   //  banner 图
   getBanner()
+  // 路由面包屑
+  getCategory()
 })
-
-// 定义banner数据存储地
-let bannerList = ref([])
-const getBanner = async function () {
-  let res = await getBannerApi()
-  //  赋值
-  bannerList.value = res.result
-}
 
 </script>
 

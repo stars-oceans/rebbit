@@ -10,9 +10,9 @@ export default {
         ([{ isIntersecting }]) => {
             // 当我们的 isIntersecting 为true,我们就给 页面上的 src 传值
             if (isIntersecting) {
-              setTimeout(()=>{  // 为了自己演示 加了 个延时器
+              // setTimeout(()=>{  // 为了自己演示 加了 个延时器
               el.src = binding.value
-              },500)
+              // },500)
               // 当鼠标经过的位置 停止加载
               stop()
             }
