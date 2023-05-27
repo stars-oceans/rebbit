@@ -28,7 +28,7 @@ onMounted(async () => {
         </RouterLink>
         <ul class="goods-list">
           <li v-for="good in cate.goods" :key="good.id">
-            <GoodsItem :good="good"></GoodsItem>
+            <GoodsItem  :goodId="good.id" :good="good"></GoodsItem>
         <!--  组件替换了下面的代码  -->
             <!-- <RouterLink to="/" class="goods-item">
               <img v-img-lazy="good.picture" alt="" />

@@ -75,7 +75,7 @@ if(res.result.items.length == 0){
       <!-- 无限滚动的数据绑定和 数据加载完了的提示 -->
       <div class="body" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
         <!-- 商品列表-->
-        <GoodsItem v-for="item in goodList" :good="item"></GoodsItem>
+        <GoodsItem  :goodId="item.id" v-for="item in goodList" :good="item"></GoodsItem>
       </div>
     </div>
   </div>

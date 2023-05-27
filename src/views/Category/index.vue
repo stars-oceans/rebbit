@@ -58,7 +58,7 @@ onMounted(() => {
         <h3>- {{ item.name }}-</h3>
       </div>
       <div class="body">
-        <GoodsItem v-for="good in item.goods" :good="good" :key="good.id" />
+        <GoodsItem :goodId="good.id" v-for="good in item.goods" :good="good" :key="good.id" />
       </div>
     </div>
 
