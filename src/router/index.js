@@ -19,7 +19,11 @@ const router = createRouter({
       name: 'layout',
       component: () => import('@/views/Layout/index.vue')
     }
-  ]
+  ],
+  // 每次切换路由 滚动条都在顶部
+  scrollBehavior() {
+    return { top: 0 };
+  }
 })
 
 itemRoutes.forEach((item) => {

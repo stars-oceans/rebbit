@@ -1,19 +1,58 @@
 <script setup>
-import { getSubApi } from '@/apis/category.js'
-import { onMounted, ref} from 'vue';
+import { useSubList } from './composables/useSubList'
+const { subList } = useSubList()
 import { useRoute } from 'vue-router'
-const route = useRoute()
+import { getSubCategoryAPI } from '@/apis/category.js'
+import { onMounted, ref } from 'vue'
 
-const subList = ref([])
- async function  getSub(){
-     const data =  await getSubApi(route.params.id)
-     subList.value = data.result;
-     console.log(subList.value);
-}
-onMounted(()=>{
-  getSub()
+// 导入商品 item 组件
+import GoodsItem from '@/views/Home/components/GoodsItem.vue'
+const route = useRoute()
+// 二级商品列表 总数据
+const goodList = ref([])
+
+// 传递给后端的参数
+const reqData = ref({
+  categoryId: route.params.id,
+  page: 2,
+  pageSize: 20,
+  sortField: ''
 })
 
+// 请求的函数
+async function getGoodList() {
+  const res = await getSubCategoryAPI(reqData.value)
+  console.log(res);
+  goodList.value = res.result.items
+}
+
+// 生命周期钩子
+onMounted(() => {
+  getGoodList()
+})
+
+// 筛选的函数
+const tabChang = () => {
+  getGoodList()
+}
+
+// 是否滚动完了
+const disabled  =ref(false)
+// 无限加载 的函数
+const load = async () => {
+  console.log('加载');
+     reqData.value.page ++;
+  // console.log(reqData.value.page );
+
+  const res = await getSubCategoryAPI(reqData.value)
+
+  goodList.value = [ ...goodList.value, ...res.result.items ]
+  
+console.log(res.result.items.length ==0 );
+if(res.result.items.length == 0){
+ disabled.value  = true
+}
+}
 </script>
 
 <template>
@@ -28,11 +67,15 @@ onMounted(()=>{
       </el-breadcrumb>
     </div>
     <div class="sub-container">
-      <el-tabs>
-        <el-tab-pane v-for="m in  subList.saleProperties" :label="m.name" name="publishTime"></el-tab-pane>
+      <el-tabs v-model="reqData.sortField" @tab-change="tabChang">
+        <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
+        <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
+        <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body">
-         <!-- 商品列表-->
+      <!-- 无限滚动的数据绑定和 数据加载完了的提示 -->
+      <div class="body" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
+        <!-- 商品列表-->
+        <GoodsItem v-for="item in goodList" :good="item"></GoodsItem>
       </div>
     </div>
   </div>
@@ -93,7 +136,5 @@ onMounted(()=>{
     display: flex;
     justify-content: center;
   }
-
-
 }
 </style>
