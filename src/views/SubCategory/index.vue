@@ -48,7 +48,7 @@ const load = async () => {
 
   goodList.value = [ ...goodList.value, ...res.result.items ]
   
-console.log(res.result.items.length ==0 );
+// console.log(res.result.items.length ==0 );
 if(res.result.items.length == 0){
  disabled.value  = true
 }

@@ -2,6 +2,9 @@
 import { getDetail } from '@/apis/detail'
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
+import DetailHotVue from './components/DetailHot.vue';
+// 导入热榜组件
+import DetailHot from './components/DetailHot.vue'
 
 const detailList = ref([])
 
@@ -9,27 +12,36 @@ const detailList = ref([])
 const route = useRoute()
 async function getDetailData() {
   const res = await getDetail(route.params.id)
-  console.log(res);
+  // console.log(res);
   // 保存列表数据到变量中，方便后续操作。
-  detailList.value = res.result; 
+  detailList.value = res.result;
 }
 onMounted(() => {
   getDetailData()
 })
+
+
 
 </script>
 
 <template>
   <div class="xtx-goods-page">
     <div class="container">
+      <!-- 这也是一种方发法 -->
+      <!-- v-if="detailList" -->
       <div class="bread-container">
         <el-breadcrumb separator=">">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/' }">母婴
+          <el-breadcrumb-item :to="{ path: `/` }">首页</el-breadcrumb-item>
+          <!--
+              错误原因：goods--开始{}}.categories->undefined->undefined[1]
+              1.可选链的语法?.
+              2.V-1f手动控制渲染时机保证只有数据存在才渲染
+            -->
+          <el-breadcrumb-item :to="{ path: `/categroy/${detailList.categories?.[1].id}`}">{{ detailList.categories?.[1].name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/' }">跑步鞋
+          <el-breadcrumb-item :to="{ path: `/category/sub/${detailList.categories?.[0].id}` }">{{ detailList.categories?.[0].name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item>{{ detailList.name }}</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ detailList.desc }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <!-- 商品信息 -->
@@ -43,38 +55,38 @@ onMounted(() => {
               <ul class="goods-sales">
                 <li>
                   <p>销量人气</p>
-                  <p> 100+ </p>
+                  <p> {{ detailList.salesCount }} </p>
                   <p><i class="iconfont icon-task-filling"></i>销量人气</p>
                 </li>
                 <li>
                   <p>商品评价</p>
-                  <p>200+</p>
+                  <p>{{ detailList.commentCount}}</p>
                   <p><i class="iconfont icon-comment-filling"></i>查看评价</p>
                 </li>
                 <li>
                   <p>收藏人气</p>
-                  <p>300+</p>
+                  <p>{{ detailList.collectCount }}</p>
                   <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
                 </li>
                 <li>
                   <p>品牌信息</p>
-                  <p>400+</p>
+                  <p>{{ detailList.brand?.name }}</p>
                   <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
                 </li>
               </ul>
             </div>
             <div class="spec">
               <!-- 商品信息区 -->
-              <p class="g-name"> {{ detailList.name }} </p>
+              <p class="g-name"> {{ detailList.desc }} </p>
               <p class="g-desc">好穿 </p>
               <p class="g-price">
-                <span>200</span>
-                <span> 100</span>
+                <span>{{ detailList.price }}</span>
+                <span>{{ detailList.oldPrice }}</span>
               </p>
               <div class="g-service">
                 <dl>
                   <dt>促销</dt>
-                  <dd>12月好物放送，App领券购买直降120元</dd>
+                  <dd>{{ detailList.name }}</dd>
                 </dl>
                 <dl>
                   <dt>服务</dt>
@@ -109,19 +121,21 @@ onMounted(() => {
                 <div class="goods-detail">
                   <!-- 属性 -->
                   <ul class="attrs">
-                    <li v-for="item in 3" :key="item.value">
-                      <span class="dt">白色</span>
-                      <span class="dd">纯棉</span>
+                    <li v-for="(item, index) in detailList.details?.properties" :key="index">
+                      <span>{{ item.name }}</span>
+                      <span>{{ item.value }}</span>
                     </li>
                   </ul>
                   <!-- 图片 -->
-
+                  <img alt="" v-for="img in detailList.details?.pictures" :key="img" :src="img">
                 </div>
               </div>
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
+              <DetailHot :HotType="1"></DetailHot>
 
+              <DetailHot :HotType="2"></DetailHot>
             </div>
           </div>
         </div>
