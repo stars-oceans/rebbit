@@ -1,25 +1,14 @@
 <script setup>
-import { getDetail } from '@/apis/detail'
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router'
-import DetailHotVue from './components/DetailHot.vue';
+
 // 导入热榜组件
 import DetailHot from './components/DetailHot.vue'
+// 导入封装好的 useDetailList 详情数据的方法
+import { useDetailList } from './composables/useDetailList'
+// 在封装好的useDetailList() 方法里面拿数据 detailList 详情数据
+const { detailList } = useDetailList()
 
-const detailList = ref([])
-
-// 获取路由参数对象
-const route = useRoute()
-async function getDetailData() {
-  const res = await getDetail(route.params.id)
-  // console.log(res);
-  // 保存列表数据到变量中，方便后续操作。
-  detailList.value = res.result;
-}
-onMounted(() => {
-  getDetailData()
-})
-
+// 导入 imgView 组件
+import ImgView from './components/ImgView.vue'
 
 
 </script>
@@ -50,7 +39,7 @@ onMounted(() => {
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-
+              <ImgView></ImgView>
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
@@ -74,11 +63,12 @@ onMounted(() => {
                   <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
                 </li>
               </ul>
+           
             </div>
             <div class="spec">
               <!-- 商品信息区 -->
               <p class="g-name"> {{ detailList.desc }} </p>
-              <p class="g-desc">好穿 </p>
+              <p class="g-desc">好穿</p>
               <p class="g-price">
                 <span>{{ detailList.price }}</span>
                 <span>{{ detailList.oldPrice }}</span>

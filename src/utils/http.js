@@ -5,7 +5,7 @@ const http = axios.create({
   // 项目基地址
   baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
   // 超时时间
-  timeout: 5000
+  timeout: 30000
 })
 
 // axios请求拦截器

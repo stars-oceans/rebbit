@@ -13,7 +13,7 @@ const route = useRoute()
    })
 
 // 适配 title 1——24小时热榜  2——周热榜
-console.log(props);
+// console.log(props);
 
 const TYPEMAP = {
   1 : '4小时热榜',
@@ -38,7 +38,6 @@ async function fetchHotGoods() {
 onMounted(() => {
   fetchHotGoods()
 })
-
 </script>
 
 <template>
