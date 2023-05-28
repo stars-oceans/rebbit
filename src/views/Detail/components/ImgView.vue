@@ -1,7 +1,6 @@
 <script setup>
-
-import { ref } from 'vue'
-
+import { ref, reactive, watch } from 'vue'
+import { useMouseInElement } from '@vueuse/core'
 //定义鼠标移入后的 下标值
 const activeIndex = ref(0)
 
@@ -17,6 +16,46 @@ const imageList = [
   "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
   "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
 ]
+
+const target = ref(null)
+const left = ref(0)
+const top = ref(0)
+const { elementX, elementY, isOutside } = useMouseInElement(target)
+
+// 放大镜的图
+const  isShow = ref(false)
+
+watch([elementX, elementY, isOutside], () => {
+  if (!isOutside.value) {  //判断是否在 盒子内移动
+  // 打开放大镜的图
+  isShow.value = true
+    // 横向移动
+    if (elementX.value > 100 && elementX.value < 300) {
+      left.value = elementX.value - 100
+    }
+    // 纵向移动
+    if (elementY.value > 100 && elementY.value < 300) {
+      top.value = elementY.value - 100 
+    }
+    // 边界处理 X 轴
+    if (elementX.value < 100) {
+      left.value = 0
+    }
+    if (elementX.value > 300) {
+      left.value = 200
+    }
+    // 边界处理 Y 轴
+    if (elementY.value < 100) {
+     top.value = 0
+    }
+    if (elementY.value > 300) {
+      top.value = 200
+    }
+  }else{
+    isShow.value = false
+  }
+
+})
 </script>
 
 
@@ -26,22 +65,22 @@ const imageList = [
     <div class="middle" ref="target">
       <img :src="imageList[activeIndex]" alt="" />
       <!-- 蒙层小滑块 -->
-      <div class="layer" :style="{ left: `0px`, top: `0px` }"></div>
+      <div ref="moveBox" class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
     </div>
     <!-- 小图列表 -->
     <ul class="small">
-      <li v-for="(img, index) in imageList" :key="index" @mouseenter="enterhandler(index)">
+      <li v-for="(img, index) in imageList" :key="index" @mouseenter="enterhandler(index) " :class="{ active : index == activeIndex }">
         <img :src="img" alt="" />
       </li>
     </ul>
     <!-- 放大镜大图 -->
     <div class="large" :style="[
       {
-        backgroundImage: `url(${imageList[0]})`,
-        backgroundPositionX: `0px`,
-        backgroundPositionY: `0px`,
+        backgroundImage: `url(${imageList[activeIndex]})`,
+        backgroundPositionX: `-${elementX}px`,
+        backgroundPositionY: `-${elementY}px`,
       },
-    ]" v-show="false"></div>
+    ]" v-show="isShow"></div>
   </div>
 </template>
 
