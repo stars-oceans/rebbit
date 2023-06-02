@@ -1,6 +1,14 @@
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, defineProps } from 'vue'
 import { useMouseInElement } from '@vueuse/core'
+
+const props = defineProps({
+    imageList : {
+      type : Array,
+      default : ()=>[]
+    }
+})
+
 //定义鼠标移入后的 下标值
 const activeIndex = ref(0)
 
@@ -8,14 +16,6 @@ function enterhandler(index) {
   activeIndex.value = index
 }
 
-// 图片列表
-const imageList = [
-  "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
-  "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
-  "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
-  "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
-  "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
-]
 
 const target = ref(null)
 const left = ref(0)
@@ -23,19 +23,19 @@ const top = ref(0)
 const { elementX, elementY, isOutside } = useMouseInElement(target)
 
 // 放大镜的图
-const  isShow = ref(false)
+const isShow = ref(false)
 
 watch([elementX, elementY, isOutside], () => {
   if (!isOutside.value) {  //判断是否在 盒子内移动
-  // 打开放大镜的图
-  isShow.value = true
+    // 打开放大镜的图
+    isShow.value = true
     // 横向移动
     if (elementX.value > 100 && elementX.value < 300) {
       left.value = elementX.value - 100
     }
     // 纵向移动
     if (elementY.value > 100 && elementY.value < 300) {
-      top.value = elementY.value - 100 
+      top.value = elementY.value - 100
     }
     // 边界处理 X 轴
     if (elementX.value < 100) {
@@ -46,16 +46,18 @@ watch([elementX, elementY, isOutside], () => {
     }
     // 边界处理 Y 轴
     if (elementY.value < 100) {
-     top.value = 0
+      top.value = 0
     }
     if (elementY.value > 300) {
       top.value = 200
     }
-  }else{
+  } else {
     isShow.value = false
   }
 
 })
+
+
 </script>
 
 

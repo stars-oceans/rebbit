@@ -1,5 +1,4 @@
 <script setup>
-
 // 导入热榜组件
 import DetailHot from './components/DetailHot.vue'
 // 导入封装好的 useDetailList 详情数据的方法
@@ -10,6 +9,13 @@ const { detailList } = useDetailList()
 // 导入 imgView 组件
 import ImgView from './components/ImgView.vue'
 
+// 导入 sku 组件
+import XtxSku from './components/XtxSku/index.vue'
+
+// sku 规格操作时
+const skuChange = (val)=>{
+  console.log(val);
+}
 
 </script>
 
@@ -39,7 +45,7 @@ import ImgView from './components/ImgView.vue'
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-              <ImgView></ImgView>
+              <ImgView  :imageList="detailList.mainPictures"></ImgView>
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
@@ -89,7 +95,7 @@ import ImgView from './components/ImgView.vue'
                 </dl>
               </div>
               <!-- sku组件 -->
-
+                <XtxSku :goods="detailList" @change="skuChange"></XtxSku>
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
