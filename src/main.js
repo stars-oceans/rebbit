@@ -10,8 +10,11 @@ import router from './router'
 // 引入我们的懒加载插件
 import imgLazy from './directives/index'
 
-const app = createApp(App)
+// 引入全局组件
+import componentsPlugin from '@/components/index'
 
+const app = createApp(App)
+app.use(componentsPlugin)
 app.use(imgLazy)
 app.use(createPinia())
 app.use(router)

@@ -6,12 +6,6 @@ import { useDetailList } from './composables/useDetailList'
 // 在封装好的useDetailList() 方法里面拿数据 detailList 详情数据
 const { detailList } = useDetailList()
 
-// 导入 imgView 组件
-import ImgView from './components/ImgView.vue'
-
-// 导入 sku 组件
-import XtxSku from './components/XtxSku/index.vue'
-
 // sku 规格操作时
 const skuChange = (val)=>{
   console.log(val);
@@ -45,7 +39,7 @@ const skuChange = (val)=>{
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-              <ImgView  :imageList="detailList.mainPictures"></ImgView>
+              <FullImgView  :imageList="detailList.mainPictures"></FullImgView>
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
@@ -95,7 +89,7 @@ const skuChange = (val)=>{
                 </dl>
               </div>
               <!-- sku组件 -->
-                <XtxSku :goods="detailList" @change="skuChange"></XtxSku>
+                <FullXtxSku :goods="detailList" @change="skuChange"></FullXtxSku>
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
